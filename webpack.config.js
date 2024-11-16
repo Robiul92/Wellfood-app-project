@@ -34,14 +34,7 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           "css-loader",
-          {
-            loader: "postcss-loader",
-            options: {
-              postcssOptions: {
-                plugins: [require("tailwindcss"), require("autoprefixer")],
-              },
-            },
-          },
+          "postcss-loader",  // Simply use "postcss-loader" without extra options
         ],
       },
 
@@ -49,6 +42,19 @@ module.exports = {
         test: /\.html$/i,
         loader: "html-loader",
       },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[hash].[ext]', // Custom output filename
+              outputPath: 'images',       // Folder for images in 'dist'
+            },
+          },
+        ],
+      },
+      
     ],
   },
   plugins: [
