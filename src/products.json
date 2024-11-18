@@ -1,0 +1,63 @@
+[
+    {
+      "name": "Delicious Chocolate Cake",
+      "price": "৳2500.00",
+      "image": "https://via.placeholder.com/150",
+      "link": "/shop/delicious-chocolate-cake"
+    },
+    {
+      "name": "Classic Vanilla Muffin",
+      "price": "৳350.00",
+      "image": "https://via.placeholder.com/150",
+      "link": "/shop/classic-vanilla-muffin"
+    },
+    {
+      "name": "Gluten-Free Brownie",
+      "price": "৳400.00",
+      "image": "https://via.placeholder.com/150",
+      "link": "/shop/gluten-free-brownie"
+    },
+    {
+      "name": "Fresh Blueberry Tart",
+      "price": "৳1200.00",
+      "image": "https://via.placeholder.com/150",
+      "link": "/shop/fresh-blueberry-tart"
+    },
+    {
+      "name": "Crispy Almond Biscotti",
+      "price": "৳750.00",
+      "image": "https://via.placeholder.com/150",
+      "link": "/shop/crispy-almond-biscotti"
+    },
+    {
+      "name": "Homemade Apple Pie",
+      "price": "৳1500.00",
+      "image": "https://via.placeholder.com/150",
+      "link": "/shop/homemade-apple-pie"
+    },
+    {
+      "name": "Vegan Chocolate Donut",
+      "price": "৳375.00",
+      "image": "https://via.placeholder.com/150",
+      "link": "/shop/vegan-chocolate-donut"
+    },
+    {
+      "name": "Lemon Drizzle Cake",
+      "price": "৳1800.00",
+      "image": "https://via.placeholder.com/150",
+      "link": "/shop/lemon-drizzle-cake"
+    },
+    {
+      "name": "Carrot Walnut Cupcake",
+      "price": "৳280.00",
+      "image": "https://via.placeholder.com/150",
+      "link": "/shop/carrot-walnut-cupcake"
+    },
+    {
+      "name": "Double Chocolate Cookie",
+      "price": "৳150.00",
+      "image": "https://via.placeholder.com/150",
+      "link": "/shop/double-chocolate-cookie"
+    }
+  ]
+  

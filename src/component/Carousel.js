@@ -18,7 +18,7 @@ export function Carousel() {
       data-twe-carousel-active>
       <img
         src="${carusel1}"  // Use Webpack-imported image
-        class="block w-full"
+        class="h-80  w-full rounded"
         alt="Image 1" />
     </div>
     <!--Second item-->

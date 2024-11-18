@@ -3,9 +3,11 @@ import { NavBar } from '../component/NavBar';
 import { Footer } from '../component/Footer';
 import { Carousel } from '../component/Carousel';
 import { Hero } from '../component/Hero';
+import { Products } from '../component/Products';
 
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize Navbar
   const navbarContainer = document.getElementById('navbar');
   if (navbarContainer) {
     navbarContainer.appendChild(NavBar());
@@ -13,15 +15,28 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error('Navbar container not found');
   }
 
+  // Initialize Carousel
   const carouselContainer = document.getElementById('carousel');
   if (carouselContainer) {
     carouselContainer.appendChild(Carousel());
   } else {
     console.error('Carousel container not found');
   }
-  const HeroContiner = document.getElementById('hero');
-  HeroContiner.appendChild(Hero());
 
+  // Initialize Products
+  const productsContainer = document.getElementById('products');
+  productsContainer.appendChild(Products());
+ 
+
+  // Initialize Hero Section
+  const heroContainer = document.getElementById('hero');
+  if (heroContainer) {
+    heroContainer.appendChild(Hero());
+  } else {
+    console.error('Hero container not found');
+  }
+
+  // Initialize Footer
   const footerContainer = document.getElementById('footer');
   if (footerContainer) {
     footerContainer.appendChild(Footer());
