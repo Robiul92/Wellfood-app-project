@@ -51,10 +51,21 @@ export function SingleProduct() {
            
 
             document.getElementById("add-to-cart").addEventListener(
-             "click", ()=> console.log("I am clicked")
+             "click", ()=> {
+              const drawerInput = document.getElementById("my-drawer-4");
+              const quantity = document.getElementById("product-quantity").value;
+        const weight = document.getElementById("product-weight").value;
+      
+        if (drawerInput) {
+          drawerInput.checked = true; // Open the drawer
+        } else {
+          console.error("Drawer input element not found.");
+        }
+      
+      }
             )
 
-            document.getElementById("my-drawer-4").checked = true;
+            
 
       // Add a back button listener
       document

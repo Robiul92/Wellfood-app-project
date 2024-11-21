@@ -5,6 +5,7 @@ import { Carousel } from '../component/Carousel';
 import { Hero } from '../component/Hero';
 import { Products } from '../component/Products';
 import { SingleProduct } from '../component/SingleProduct';
+import { CartDrawer } from '../component/CartDrawer'
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -46,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   SingleProduct();
+  CartDrawer();
   window.addEventListener('hashchange', SingleProduct); // Call Router on hash change
 });
 
