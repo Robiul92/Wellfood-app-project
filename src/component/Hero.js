@@ -15,12 +15,14 @@ export function Hero() {
         </iframe>
       </div>
       <div class="lg:w-1/3">
-        <h1 class="text-5xl font-bold">Box Office News!</h1>
+        <h1 class="text-5xl text-red-600 font-bold">Celebrate with Well Food</h1>
         <p class="py-6">
-          Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-          quasi. In deleniti eaque aut repudiandae et a id nisi.
+          Celebrate any occasion with our delicious and beautiful cake. Choose your favorite design and flavor.
         </p>
-        <button class="btn btn-primary">Get Started</button>
+        <div class="justify-between flex space-x-4"> 
+        <button class="btn rounded-lg bg-red-600 ">VIEW MORE</button>
+        <button class="btn bg-white-600 ">GO TO SHOP</button>
+        </div>
       </div>
     </div>
   </div>`;

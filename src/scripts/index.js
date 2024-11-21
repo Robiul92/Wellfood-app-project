@@ -4,6 +4,7 @@ import { Footer } from '../component/Footer';
 import { Carousel } from '../component/Carousel';
 import { Hero } from '../component/Hero';
 import { Products } from '../component/Products';
+import { SingleProduct } from '../component/SingleProduct';
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -43,4 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     console.error('Footer container not found');
   }
+
+  SingleProduct();
+  window.addEventListener('hashchange', SingleProduct); // Call Router on hash change
 });
+
+
