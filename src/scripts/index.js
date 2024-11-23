@@ -5,7 +5,7 @@ import { Carousel } from '../component/Carousel';
 import { Hero } from '../component/Hero';
 import { Products } from '../component/Products';
 import { SingleProduct } from '../component/SingleProduct';
-import { CartDrawer } from '../component/CartDrawer'
+import { updateCartDrawer, addToCart } from '../component/updateCartDrawer'
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -46,9 +46,13 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error('Footer container not found');
   }
 
-  SingleProduct();
-  CartDrawer();
+
   window.addEventListener('hashchange', SingleProduct); // Call Router on hash change
+  SingleProduct();
+ 
+  
+ 
+  updateCartDrawer();
 });
 
 

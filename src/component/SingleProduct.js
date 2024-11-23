@@ -1,33 +1,47 @@
-import products from "../products.json";
+import { addToCart } from "./updateCartDrawer";
 
 export function SingleProduct() {
-  const hash = window.location.hash; // Use the correct property
   const singleProductContainer = document.getElementById("single-product");
   const productsContainer = document.getElementById("products");
 
-  if (hash.startsWith("#/product/")) {
-    const productId = parseInt(hash.split("/")[2], 10); // Extract the product index
-    const product = products[productId];
-    console.log(product);
+  const url = new URL(window.location.href);
+  const productId =
+    url.hash.split("/").pop() === ""
+      ? 0
+      : parseInt(url.hash.split("/").pop(), 10); // Check for empty hash
 
-    if (product) {
+  if (!productsContainer || !singleProductContainer) {
+    console.error("Product containers not found.");
+    return;
+  }
+
+  if (productId) {
+    const product = JSON.parse(sessionStorage.getItem("selectedProduct"));
+
+    if (product && product.id === productId) {
       // Hide the products list
       productsContainer.style.display = "none";
 
       // Show the single product view
       singleProductContainer.style.display = "block";
       singleProductContainer.innerHTML = `
-                <div class="flex flex-col md:flex-row items-center md:items-start p-6 bg-gray-100 rounded-lg shadow-lg">
-          <!-- Set the product image on the left -->
+        <div class="flex flex-col md:flex-row items-center md:items-start p-6 bg-gray-100 rounded-lg shadow-lg">
           <div class="w-full md:w-1/2">
-            <img src="https://cdn.pixabay.com/photo/2020/05/22/17/53/mockup-5206355_960_720.jpg" alt="${product.name}" class="w-full h-auto rounded-lg shadow-md"/>
+            <img src="https://cdn.pixabay.com/photo/2020/05/22/17/53/mockup-5206355_960_720.jpg" alt="${
+              product.name
+            }" class="w-full h-auto rounded-lg shadow-md"/>
           </div>
-          <!-- Right Side: Product Details -->
           <div class="w-full md:w-1/2 md:pl-6">
-            <h1 class="text-3xl font-bold text-gray-800 mb-4">${product.name}</h1>
-            <p class="text-2xl text-green-600 font-semibold mb-4">Price: ${product.price} / unit</p>
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">${
+              product.name
+            }</h1>
+            <p class="text-2xl text-green-600 font-semibold mb-4">Price: ${
+              product.price
+            } / unit</p>
             <p class="text-gray-600 mb-4">
-              <strong>Description:</strong> ${product.description || "No description available."}
+              <strong>Description:</strong> ${
+                product.description || "No description available."
+              }
             </p>
             <div class="flex flex-col md:flex-row md:items-center md:space-x-4 mb-4">
               <label for="product-quantity" class="text-gray-700 font-medium mb-2 md:mb-0">Quantity:</label>
@@ -46,38 +60,36 @@ export function SingleProduct() {
             <button id="back-to-products" class="w-full mt-4 bg-gray-600 text-white py-2 rounded-md hover:bg-gray-700 transition">Back to Products</button>
           </div>
         </div>
-            `;
+      `;
 
-           
-
-            document.getElementById("add-to-cart").addEventListener(
-             "click", ()=> {
-              const drawerInput = document.getElementById("my-drawer-4");
-              const quantity = document.getElementById("product-quantity").value;
+      document.getElementById("add-to-cart").addEventListener("click", () => {
+        const quantity = parseInt(
+          document.getElementById("product-quantity").value,
+          10
+        );
         const weight = document.getElementById("product-weight").value;
-      
+
+        addToCart(product, quantity, weight);
+
+        const drawerInput = document.getElementById("my-drawer-4");
         if (drawerInput) {
-          drawerInput.checked = true; // Open the drawer
+          drawerInput.checked = true;
         } else {
           console.error("Drawer input element not found.");
         }
-      
-      }
-            )
+      });
 
-            
-
-      // Add a back button listener
       document
         .getElementById("back-to-products")
         .addEventListener("click", () => {
-          window.location.hash = "#"; // Redirect to the main page
+          window.location.hash = "";
+          productsContainer.style.display = "block";
+          singleProductContainer.style.display = "none";
         });
     } else {
       singleProductContainer.innerHTML = "<p>Product not found!</p>";
     }
   } else {
-    // Show the product list and hide the single product view
     productsContainer.style.display = "block";
     singleProductContainer.style.display = "none";
   }
