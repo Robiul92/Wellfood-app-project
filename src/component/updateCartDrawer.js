@@ -1,4 +1,6 @@
-let cart = [];
+import { cartPage } from "../pages/cartPage";
+
+export let cart = [];
 
 // Function to update the cart drawer UI
 export function updateCartDrawer() {
@@ -75,7 +77,7 @@ export function updateCartDrawer() {
               <p class="text-lg font-semibold">৳${subtotal}</p>
             </div>
             <div class="mt-4 flex flex-col space-y-2">
-              <button class="btn btn-primary w-full">View Cart</button>
+            <button id="cart-page-btn" class="btn btn-primary w-full">View Cart</button>
               <button class="btn btn-secondary w-full">Checkout</button>
             </div>
           </div>
@@ -85,8 +87,17 @@ export function updateCartDrawer() {
   `;
 }
 
+const viewCartButton = document.getElementById("cart-page-btn");
+  if (viewCartButton) {
+    viewCartButton.addEventListener("click", () => {
+      window.location.hash = "#/cart"; // Navigate to the cart page
+    });
+  }
+
+
 // Function to add a product to the cart
 export function addToCart(product, quantity, weight) {
+  const cartDrawerComponent = document.getElementById("cart-drawer-container");
   const price = parseFloat(product.price.replace(/[^\d.-]/g, ""));
 
   if (isNaN(price) || isNaN(quantity) || quantity <= 0) {
@@ -111,6 +122,14 @@ export function addToCart(product, quantity, weight) {
       totalPrice,
     });
   }
-
   updateCartDrawer();
+  
+  const viewCartButton = document.getElementById("cart-page-btn");
+  if (viewCartButton) {
+    viewCartButton.addEventListener("click", () => {
+      window.location.hash = "#/cart"; // Navigate to the cart page
+    });
+  }
+
+ 
 }

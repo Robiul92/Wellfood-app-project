@@ -6,7 +6,7 @@ import { Hero } from '../component/Hero';
 import { Products } from '../component/Products';
 import { SingleProduct } from '../component/SingleProduct';
 import { updateCartDrawer, addToCart } from '../component/updateCartDrawer'
-
+import { cartPage } from '../pages/cartPage';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize Navbar
@@ -49,10 +49,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('hashchange', SingleProduct); // Call Router on hash change
   SingleProduct();
+
+ 
  
   
  
   updateCartDrawer();
+
+  window.addEventListener('hashchange', handleRouteChange);
+  handleRouteChange();
+
+  
 });
+
+function handleRouteChange() {
+  const { hash } = window.location;
+
+  if (hash === "#/cart") {
+    cartPage(); // Show the cart page
+  }
+}
 
 
