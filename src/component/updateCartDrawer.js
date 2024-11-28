@@ -2,40 +2,13 @@ import { cartPage } from "../pages/cartPage";
 
 export let cart = [];
 
-// Function to update the cart drawer UI
-export function updateCartDrawer() {
-  const cartDrawerComponent = document.getElementById("cart-drawer-container");
-
-  if (!cartDrawerComponent) {
-    console.error("Cart drawer container not found.");
-    return;
-  }
-
-  // Check if cart is empty
+// Function to generate cart items HTML
+export function generateCartItemsHTML() {
   if (cart.length === 0) {
-    cartDrawerComponent.innerHTML = `
-      <div class="drawer drawer-end">
-        <input id="my-drawer-4" type="checkbox" class="drawer-toggle" />
-        <div class="drawer-content">
-          <label for="my-drawer-4" class="drawer-button hidden"></label>
-        </div>
-        <div class="drawer-side">
-          <label for="my-drawer-4" class="drawer-overlay"></label>
-          <div class="menu bg-white shadow-lg w-80 p-4">
-            <div class="flex justify-between items-center border-b pb-2">
-              <h3 class="text-lg font-bold">Shopping Cart</h3>
-              <label for="my-drawer-4" class="cursor-pointer text-gray-500 text-xl font-bold">&times;</label>
-            </div>
-            <p class="text-center text-gray-500 mt-4">Your cart is empty!</p>
-          </div>
-        </div>
-      </div>
-    `;
-    return;
+    return `<p class="text-gray-500 text-center">Your cart is empty!</p>`;
   }
 
-  // Render the updated cart items
-  const cartItemsHTML = cart
+  return cart
     .map(
       (item) => `
       <li class="flex items-center justify-between border-b py-2">
@@ -48,9 +21,24 @@ export function updateCartDrawer() {
       </li>`
     )
     .join("");
+}
 
-  // Calculate the subtotal
-  const subtotal = cart.reduce((acc, item) => acc + item.totalPrice, 0).toFixed(2);
+// Function to calculate cart subtotal
+export function calculateCartSubtotal() {
+  return cart.reduce((acc, item) => acc + item.totalPrice, 0).toFixed(2);
+}
+
+// Function to update the cart drawer UI
+export function updateCartDrawer() {
+  const cartDrawerComponent = document.getElementById("cart-drawer-container");
+
+  if (!cartDrawerComponent) {
+    console.error("Cart drawer container not found.");
+    return;
+  }
+
+  const cartItemsHTML = generateCartItemsHTML(); // Call the helper function
+  const subtotal = calculateCartSubtotal(); // Call the helper function
 
   cartDrawerComponent.innerHTML = `
     <div class="drawer drawer-end">
@@ -77,7 +65,7 @@ export function updateCartDrawer() {
               <p class="text-lg font-semibold">৳${subtotal}</p>
             </div>
             <div class="mt-4 flex flex-col space-y-2">
-            <button id="cart-page-btn" class="btn btn-primary w-full">View Cart</button>
+              <button id="cart-page-btn" class="btn btn-primary w-full">View Cart</button>
               <button class="btn btn-secondary w-full">Checkout</button>
             </div>
           </div>
@@ -85,19 +73,18 @@ export function updateCartDrawer() {
       </div>
     </div>
   `;
-}
 
-const viewCartButton = document.getElementById("cart-page-btn");
+  // Add event listener for "View Cart" button
+  const viewCartButton = document.getElementById("cart-page-btn");
   if (viewCartButton) {
     viewCartButton.addEventListener("click", () => {
       window.location.hash = "#/cart"; // Navigate to the cart page
     });
   }
-
+}
 
 // Function to add a product to the cart
 export function addToCart(product, quantity, weight) {
-  const cartDrawerComponent = document.getElementById("cart-drawer-container");
   const price = parseFloat(product.price.replace(/[^\d.-]/g, ""));
 
   if (isNaN(price) || isNaN(quantity) || quantity <= 0) {
@@ -122,14 +109,6 @@ export function addToCart(product, quantity, weight) {
       totalPrice,
     });
   }
-  updateCartDrawer();
-  
-  const viewCartButton = document.getElementById("cart-page-btn");
-  if (viewCartButton) {
-    viewCartButton.addEventListener("click", () => {
-      window.location.hash = "#/cart"; // Navigate to the cart page
-    });
-  }
 
- 
+  updateCartDrawer(); // Update cart drawer UI
 }

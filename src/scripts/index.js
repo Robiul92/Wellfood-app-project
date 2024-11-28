@@ -7,6 +7,7 @@ import { Products } from '../component/Products';
 import { SingleProduct } from '../component/SingleProduct';
 import { updateCartDrawer, addToCart } from '../component/updateCartDrawer'
 import { cartPage } from '../pages/cartPage';
+import { CheckoutPage } from '../pages/CheckoutPages';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize Navbar
@@ -67,6 +68,10 @@ function handleRouteChange() {
 
   if (hash === "#/cart") {
     cartPage(); // Show the cart page
+  }
+
+  if (hash === "#/checkout") {
+    CheckoutPage(); // Show the cart page
   }
 }
 

@@ -48,9 +48,17 @@ export function cartPage() {
           <p class="text-xl font-semibold">Subtotal:</p>
           <p class="text-xl font-bold">৳${subtotal}</p>
         </div>
-        <button class="btn btn-primary w-full">Proceed to Checkout</button>
+        <button id="checkout-button" class="btn btn-primary w-full">Proceed to Checkout</button>
       </div>
     </div>
       
     `;
+
+    const checkoutButton = document.getElementById("checkout-button")
+    if (checkoutButton) {
+      checkoutButton.addEventListener("click", () => {
+        window.location.hash = "#/checkout"; // 
+        console.log('checkout page')
+      });
+    }
   }
