@@ -65,14 +65,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function handleRouteChange() {
   const { hash } = window.location;
+  const mainContent = document.getElementById("hide-content");
+
+  if (hash === "#/cart" || hash === "#/checkout") {
+    mainContent.style.display = "none"; 
+  } else {
+    mainContent.style.display = "block"; 
+  }
 
   if (hash === "#/cart") {
-    cartPage(); // Show the cart page
+    cartPage();
   }
 
   if (hash === "#/checkout") {
-    CheckoutPage(); // Show the cart page
+  
+   const hideCart = document.getElementById("cartPage");
+   CheckoutPage ? hideCart.style.display = "none" : hideCart.style.display = "block"
+   CheckoutPage();
   }
 }
+
 
 

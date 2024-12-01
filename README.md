@@ -8,6 +8,7 @@
 * npm install html-webpack-plugin --save-dev
 * npm install -D webpack-dev-server
 * npm install file-loader --save-dev
+* npm install joi
 
 * npx tailwindcss init
 
