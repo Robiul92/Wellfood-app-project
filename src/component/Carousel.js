@@ -1,43 +1,46 @@
-import carusel1 from '../images/carousel.png';
+import carusel1 from '../images/carousel1.jpg';
+import carusel2 from '../images/carousel2.png';
+import carusel3 from '../images/carousel3.jpg';
+import carusel4 from '../images/carousel4.jpg';
 
 export function Carousel() {
   const carousel = document.createElement('div');
   carousel.innerHTML = `
-<div
-  id="carouselExampleSlidesOnly"
-  class="relative"
-  data-twe-carousel-init
-  data-twe-ride="carousel">
-  <!--Carousel items-->
-  <div
-    class="relative w-full overflow-hidden after:clear-both after:block after:content-['']">
-    <!--First item-->
-    <div
-      class="relative float-left -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
-      data-twe-carousel-item
-      data-twe-carousel-active>
-      <img
-        src="${carusel1}"  // Use Webpack-imported image
-        class="h-80  w-full rounded"
-        alt="Image 1" />
+<div class="carousel w-full">
+  <div id="slide1" class="carousel-item relative w-full">
+    <img
+      src=${carusel1}
+      class="w-full" />
+    <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+      <a href="#slide4" class="btn btn-circle">❮</a>
+      <a href="#slide2" class="btn btn-circle">❯</a>
     </div>
-    <!--Second item-->
-    <div
-      class="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
-      data-twe-carousel-item>
-      <img
-        src="https://mdbcdn.b-cdn.net/img/new/slides/042.webp"
-        class="block w-full"
-        alt="Image 2" />
+  </div>
+  <div id="slide2" class="carousel-item relative w-full">
+    <img
+      src=${carusel2}
+      class="w-full" />
+    <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+      <a href="#slide1" class="btn btn-circle">❮</a>
+      <a href="#slide3" class="btn btn-circle">❯</a>
     </div>
-    <!--Third item-->
-    <div
-      class="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
-      data-twe-carousel-item>
-      <img
-        src="https://mdbcdn.b-cdn.net/img/new/slides/043.webp"
-        class="block w-full"
-        alt="Image 3" />
+  </div>
+  <div id="slide3" class="carousel-item relative w-full">
+    <img
+      src=${carusel3}
+      class="w-full" />
+    <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+      <a href="#slide2" class="btn btn-circle">❮</a>
+      <a href="#slide4" class="btn btn-circle">❯</a>
+    </div>
+  </div>
+  <div id="slide4" class="carousel-item relative w-full">
+    <img
+      src=${carusel4}
+      class="w-full" />
+    <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+      <a href="#slide3" class="btn btn-circle">❮</a>
+      <a href="#slide1" class="btn btn-circle">❯</a>
     </div>
   </div>
 </div>

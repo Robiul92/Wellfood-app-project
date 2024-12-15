@@ -1,46 +1,71 @@
-import productData from "../products.json";
-
-export function Products() {
+export async function Products() {
   // Create a container for all products
   const products = document.createElement("div");
-  products.className = "grid md:grid-cols-3 gap-4 p-4"; // Add a class for styling
+  products.className = "grid md:grid-cols-2 lg:grid-cols-4 gap-4 p-4"; // Add a class for styling
 
-  // Iterate through the product data array
-  productData.forEach((product, index) => {
-    // Use `index` as the fallback id if `product.id` is not defined
-    const productId = product.id || index;
+  try {
+    // Fetch product data from the API
+    const response = await fetch(
+      "https://bakery-backend.fly.dev/api/products?per_page=16&category=snacks"
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch product data");
+    }
 
-    // Create a div for each product
-    const productDiv = document.createElement("div");
-    productDiv.className = "product";
+    const productData = await response.json();
+    
 
-    // Set the innerHTML for each product
-    productDiv.innerHTML = `
-      <div class="card bg-base-100 w-96 shadow-xl">
-        <figure>
-          <img src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp" alt="${product.name}" />
-        </figure>
-        <div class="card-body">
-          <h2 class="card-title">${product.name}</h2>
-          <p>${product.price}</p>
-          <div class="card-actions">
-            <a href="#/product/${productId}" class="btn btn-primary" id="buy-now-${productId}">Buy Now</a>
-          </div>
-        </div>
-      </div>
-    `;
+    const productArray = productData.data;
+ 
 
-    // Add event listener to "Buy Now" button
-    const buyButton = productDiv.querySelector(`#buy-now-${productId}`);
-    buyButton.addEventListener("click", () => {
-      // Save product data to sessionStorage
-      sessionStorage.setItem("selectedProduct", JSON.stringify(product));
+    productArray.map((product, id) => {
+      const productId = product.id;
+     
+      
+
+      const imageUrl = product.storage_files?.[0]?.image_url;
+
+      const productDiv = document.createElement("div");
+      productDiv.className =
+        "card bg-base-100 shadow-xl border border-gray-300 rounded-xl";
+
+      productDiv.innerHTML = `
+       
+
+        <div class="md">
+  <figure class="px-4 pt-4  border-gray-300 border-b-2 pb-2 ">
+    <img
+      src=${imageUrl}
+      alt="Foods"
+      class="rounded-xl" />
+  </figure>
+  <div class="card-body items-center text-center">
+    <h2 class="card-title">${product.name}</h2>
+    <p>${product.price}</p>
+    <div class="card-actions">
+      <a href="#/product/${productId}" class="btn btn-primary" id="buy-now-${productId}">Buy Now</a>
+    </div>
+  </div>
+</div>
+      `;
+      
+
+      const buyButton = productDiv.querySelector(`#buy-now-${productId}`);
+      buyButton.addEventListener("click", () => {
+        // Save product data to sessionStorage
+        sessionStorage.setItem("selectedProduct", JSON.stringify(product));
+      });
+
+      // Append the product div to the container
+      products.appendChild(productDiv);
     });
+  } catch (error) {
+    console.error("Error fetching product data:", error);
 
-    // Append the product div to the container
-    products.appendChild(productDiv);
-  });
+    // Display an error message
+    products.innerHTML = `<p class="text-red-500">Failed to load products. Please try again later.</p>`;
+  }
 
-  // Return the container with all products
+ 
   return products;
 }

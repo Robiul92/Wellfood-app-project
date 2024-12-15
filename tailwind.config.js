@@ -8,5 +8,7 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [require("daisyui")], // to use daisyui need to add this here
+  plugins: [require("daisyui"),
+    require("autoprefixer"),
+  ], 
 };

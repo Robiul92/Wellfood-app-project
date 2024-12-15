@@ -8,8 +8,9 @@ import { SingleProduct } from '../component/SingleProduct';
 import { updateCartDrawer, addToCart } from '../component/updateCartDrawer'
 import { cartPage } from '../pages/cartPage';
 import { CheckoutPage } from '../pages/CheckoutPages';
+import { CatagoryProduct } from '../component/CatagoryProduct';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   // Initialize Navbar
   const navbarContainer = document.getElementById('navbar');
   if (navbarContainer) {
@@ -26,10 +27,30 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error('Carousel container not found');
   }
 
-  // Initialize Products
+  // Initialize Products (WAIT for Products to resolve)
   const productsContainer = document.getElementById('products');
-  productsContainer.appendChild(Products());
- 
+  if (productsContainer) {
+    try {
+      const productsElement = await Products(); // Wait for the async function
+      productsContainer.appendChild(productsElement);
+    } catch (error) {
+      console.error("Error initializing products:", error);
+    }
+  } else {
+    console.error('Products container not found');
+  }
+
+  const CatogaryProductsContainer = document.getElementById('Catogaryproducts');
+  if (CatogaryProductsContainer) {
+    try {
+      const CatogaryProductsElement = await CatagoryProduct(); 
+      CatogaryProductsContainer.appendChild(CatogaryProductsElement);
+    } catch (error) {
+      console.error("Error initializing products:", error);
+    }
+  } else {
+    console.error('Catogary Products container not found');
+  }
 
   // Initialize Hero Section
   const heroContainer = document.getElementById('hero');
@@ -47,21 +68,16 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error('Footer container not found');
   }
 
-
+  // Set up route handling
   window.addEventListener('hashchange', SingleProduct); // Call Router on hash change
   SingleProduct();
 
- 
- 
-  
- 
   updateCartDrawer();
 
   window.addEventListener('hashchange', handleRouteChange);
   handleRouteChange();
-
-  
 });
+
 
 function handleRouteChange() {
   const { hash } = window.location;
