@@ -5,6 +5,7 @@ import carusel4 from '../images/carousel4.jpg';
 
 export function Carousel() {
   const carousel = document.createElement('div');
+  carousel.className = "p-4"
   carousel.innerHTML = `
 <div class="carousel w-full">
   <div id="slide1" class="carousel-item relative w-full">

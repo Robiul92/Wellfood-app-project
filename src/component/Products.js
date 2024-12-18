@@ -1,4 +1,5 @@
-export async function Products() {
+export async function Products(categoryId = "sweets") {
+  console.log(categoryId);
   // Create a container for all products
   const products = document.createElement("div");
   products.className = "grid md:grid-cols-2 lg:grid-cols-4 gap-4 p-4"; // Add a class for styling
@@ -6,22 +7,18 @@ export async function Products() {
   try {
     // Fetch product data from the API
     const response = await fetch(
-      "https://bakery-backend.fly.dev/api/products?per_page=16&category=snacks"
+      `https://bakery-backend.fly.dev/api/products?per_page=16&category=${categoryId}`
     );
     if (!response.ok) {
       throw new Error("Failed to fetch product data");
     }
 
     const productData = await response.json();
-    
 
     const productArray = productData.data;
- 
 
     productArray.map((product, id) => {
       const productId = product.id;
-     
-      
 
       const imageUrl = product.storage_files?.[0]?.image_url;
 
@@ -48,24 +45,22 @@ export async function Products() {
   </div>
 </div>
       `;
-      
 
       const buyButton = productDiv.querySelector(`#buy-now-${productId}`);
       buyButton.addEventListener("click", () => {
-        // Save product data to sessionStorage
+       
         sessionStorage.setItem("selectedProduct", JSON.stringify(product));
       });
 
-      // Append the product div to the container
+      
       products.appendChild(productDiv);
     });
   } catch (error) {
     console.error("Error fetching product data:", error);
 
-    // Display an error message
+    
     products.innerHTML = `<p class="text-red-500">Failed to load products. Please try again later.</p>`;
   }
 
- 
   return products;
 }
