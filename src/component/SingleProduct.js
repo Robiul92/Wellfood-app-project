@@ -17,17 +17,22 @@ export function SingleProduct() {
 
   if (productId) {
     const product = JSON.parse(sessionStorage.getItem("selectedProduct"));
+    console.log(product);
 
     if (product && product.id === productId) {
       // Hide the products list
       productsContainer.style.display = "none";
+
+      const imageUrl = product.storage_files[0].image_url;
+
+
 
       // Show the single product view
       singleProductContainer.style.display = "block";
       singleProductContainer.innerHTML = `
         <div class="flex flex-col md:flex-row items-center md:items-start p-6 bg-gray-100 rounded-lg shadow-lg">
           <div class="w-full md:w-1/2">
-            <img src="https://cdn.pixabay.com/photo/2020/05/22/17/53/mockup-5206355_960_720.jpg" alt="${
+            <img src=${imageUrl} alt="${
               product.name
             }" class="w-full h-auto rounded-lg shadow-md"/>
           </div>
@@ -50,10 +55,9 @@ export function SingleProduct() {
             <div class="flex flex-col md:flex-row md:items-center md:space-x-4 mb-6">
               <label for="product-weight" class="text-gray-700 font-medium mb-2 md:mb-0">Weight:</label>
               <select id="product-weight" class="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
-                <option value="500g">500g</option>
+                
                 <option value="1kg">1kg</option>
-                <option value="2kg">2kg</option>
-                <option value="5kg">5kg</option>
+                
               </select>
             </div>
             <button id="add-to-cart" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">Add to Cart</button>
