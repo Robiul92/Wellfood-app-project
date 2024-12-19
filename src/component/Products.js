@@ -30,11 +30,11 @@ export async function Products(categoryId = "sweets") {
        
 
         <div class="md">
-  <figure class="px-4 pt-4  border-gray-300 border-b-2 pb-2 ">
+  <figure class="px-4 pt-4  border-gray-300 border-b-2 pb-2  ">
     <img
       src=${imageUrl}
       alt="Foods"
-      class="rounded-xl" />
+      class=" h-[283px] rounded-xl" />
   </figure>
   <div class="card-body text-center">
     <div class = "flex justify-between p-1">
