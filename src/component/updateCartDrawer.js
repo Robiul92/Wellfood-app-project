@@ -2,7 +2,8 @@ import { cartPage } from "../pages/cartPage";
 
 export let cart = [];
 
-// Function to generate cart items HTML
+
+
 export function generateCartItemsHTML() {
   if (cart.length === 0) {
     return `<p class="text-gray-500 text-center">Your cart is empty!</p>`;
@@ -102,7 +103,7 @@ export function addToCart(product, quantity, weight) {
     cart.push({
       id: product.id,
       name: product.name,
-      image: product.image, // Ensure your product object contains an image property
+      image: product.storage_files[0].image_url, // Ensure your product object contains an image property
       price,
       quantity,
       weight,

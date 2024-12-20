@@ -1,3 +1,4 @@
+import { addToCart } from "./updateCartDrawer";
 export async function Products(categoryId = "sweets") {
   console.log(categoryId);
   // Create a container for all products
@@ -27,18 +28,16 @@ export async function Products(categoryId = "sweets") {
         "card bg-base-100 shadow-xl border border-gray-300 rounded-xl";
 
       productDiv.innerHTML = `
-       
-
-        <div class="md">
+       <div class="md">
   <figure class="px-4 pt-4  border-gray-300 border-b-2 pb-2  ">
     <img
       src=${imageUrl}
       alt="Foods"
       class=" h-[283px] rounded-xl" />
   </figure>
-  <div class="card-body text-center">
+  <div class="card-body ">
     <div class = "flex justify-between p-1">
-   <div class="card-title">  <h2 >${product.name}</h2> </div>
+   <div class="font-bold">  <h4 >${product.name}</h4> </div>
     <div class="bg-red-500 ps-2 pe-2"> <p>৳ ${product.price} .00</p></div>
     </div>
 
@@ -66,7 +65,9 @@ export async function Products(categoryId = "sweets") {
     <div class="card-actions">
       <a href="#/product/${productId}" class="btn bg-red-500" id="buy-now-${productId}">Quick View</a>
     </div>
-   <div class="flex items-center justify-center border border-yellow-400 
+   <div 
+    id="add-to-cart-${productId}" 
+   class="flex items-center justify-center border border-yellow-400 
     p-2 hover:bg-yellow-500" > 
    <svg class="w-6 h-6 text-yellow-500 hover:bg-yellow-500 hover:text-black" fill="currentColor" viewBox="0 0 16 16">
   <path d="M0 1h2l.545 1.091L4.005 8h8.971l1.46-5.909A1 1 0 0013.485 1H4.285L3.72.447A.5.5 0 003.285 0H0v1zm4.5 12a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm7 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3z" />
@@ -79,6 +80,15 @@ export async function Products(categoryId = "sweets") {
       buyButton.addEventListener("click", () => {
         sessionStorage.setItem("selectedProduct", JSON.stringify(product));
       });
+
+      const cartIcon = productDiv.querySelector(`#add-to-cart-${productId}`);
+    cartIcon.addEventListener("click", () => {
+      addToCart(product, 1, null);
+      const cartDrawerToggle = document.getElementById("my-drawer-4");
+      if (cartDrawerToggle) {
+        cartDrawerToggle.checked = true; // Open the drawer
+      }
+    });
 
       products.appendChild(productDiv);
     });
