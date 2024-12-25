@@ -78,7 +78,7 @@ export async function Products(categoryId = "sweets") {
 
       const buyButton = productDiv.querySelector(`#buy-now-${productId}`);
       buyButton.addEventListener("click", () => {
-        sessionStorage.setItem("selectedProduct", JSON.stringify(product));
+        localStorage.setItem("selectedProduct", JSON.stringify(product));
       });
 
       const cartIcon = productDiv.querySelector(`#add-to-cart-${productId}`);
@@ -86,7 +86,7 @@ export async function Products(categoryId = "sweets") {
       addToCart(product, 1, null);
       const cartDrawerToggle = document.getElementById("my-drawer-4");
       if (cartDrawerToggle) {
-        cartDrawerToggle.checked = true; // Open the drawer
+        cartDrawerToggle.checked = true; 
       }
     });
 

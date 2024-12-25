@@ -1,8 +1,10 @@
 import { cartPage } from "../pages/cartPage";
 
-export let cart = [];
+export let cart = JSON.parse(localStorage.getItem("cart")) || []; // Load cart from localStorage or initialize empty
 
-
+export function saveCartToLocalStorage() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
 
 export function generateCartItemsHTML() {
   if (cart.length === 0) {
@@ -24,12 +26,10 @@ export function generateCartItemsHTML() {
     .join("");
 }
 
-// Function to calculate cart subtotal
 export function calculateCartSubtotal() {
   return cart.reduce((acc, item) => acc + item.totalPrice, 0).toFixed(2);
 }
 
-// Function to update the cart drawer UI
 export function updateCartDrawer() {
   const cartDrawerComponent = document.getElementById("cart-drawer-container");
 
@@ -38,8 +38,8 @@ export function updateCartDrawer() {
     return;
   }
 
-  const cartItemsHTML = generateCartItemsHTML(); // Call the helper function
-  const subtotal = calculateCartSubtotal(); // Call the helper function
+  const cartItemsHTML = generateCartItemsHTML();
+  const subtotal = calculateCartSubtotal();
 
   cartDrawerComponent.innerHTML = `
     <div class="drawer drawer-end">
@@ -50,16 +50,13 @@ export function updateCartDrawer() {
       <div class="drawer-side">
         <label for="my-drawer-4" class="drawer-overlay"></label>
         <div class="menu bg-white shadow-lg w-80 p-4 flex flex-col justify-between">
-          <!-- Header with Title and Exit Button -->
           <div class="flex justify-between items-center border-b pb-2">
             <h3 class="text-lg font-bold">Shopping Cart</h3>
             <label for="my-drawer-4" class="cursor-pointer text-gray-500 text-xl font-bold">&times;</label>
           </div>
-          <!-- Cart Items -->
           <ul class="space-y-2 mt-4">
             ${cartItemsHTML}
           </ul>
-          <!-- Footer with Subtotal and Actions -->
           <div class="mt-4 border-t pt-4">
             <div class="flex justify-between items-center">
               <p class="text-lg font-semibold">Subtotal:</p>
@@ -75,16 +72,15 @@ export function updateCartDrawer() {
     </div>
   `;
 
-  // Add event listener for "View Cart" button
   const viewCartButton = document.getElementById("cart-page-btn");
   if (viewCartButton) {
     viewCartButton.addEventListener("click", () => {
-      window.location.hash = "#/cart"; // Navigate to the cart page
+      console.log("View Cart button clicked");
+      window.location.hash = "#/cart";
     });
   }
 }
 
-// Function to add a product to the cart
 export function addToCart(product, quantity, weight) {
   const price = parseFloat(product.price.replace(/[^\d.-]/g, ""));
 
@@ -103,7 +99,7 @@ export function addToCart(product, quantity, weight) {
     cart.push({
       id: product.id,
       name: product.name,
-      image: product.storage_files[0].image_url, // Ensure your product object contains an image property
+      image: product.storage_files[0].image_url,
       price,
       quantity,
       weight,
@@ -111,5 +107,6 @@ export function addToCart(product, quantity, weight) {
     });
   }
 
+  saveCartToLocalStorage(); // Save cart to localStorage
   updateCartDrawer(); // Update cart drawer UI
 }

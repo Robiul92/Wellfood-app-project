@@ -16,8 +16,9 @@ export function SingleProduct() {
   }
 
   if (productId) {
-    const product = JSON.parse(sessionStorage.getItem("selectedProduct"));
-    console.log(product);
+    
+const product = JSON.parse(localStorage.getItem("selectedProduct"));
+  console.log(product);
 
     if (product && product.id === productId) {
       // Hide the products list
