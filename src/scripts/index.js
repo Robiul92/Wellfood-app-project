@@ -9,6 +9,7 @@ import { updateCartDrawer, addToCart } from '../component/updateCartDrawer'
 import { cartPage } from '../pages/cartPage';
 import { CheckoutPage } from '../pages/CheckoutPages';
 import { CatagoryProduct } from '../component/CatagoryProduct';
+import { Modal } from '../component/Modal';
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Initialize Navbar
@@ -73,6 +74,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   SingleProduct();
 
   updateCartDrawer();
+  Modal();
 
   window.addEventListener('hashchange', handleRouteChange);
   handleRouteChange();

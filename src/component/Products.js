@@ -1,3 +1,4 @@
+import { Modal } from "./Modal";
 import { addToCart } from "./updateCartDrawer";
 export async function Products(categoryId = "sweets") {
   console.log(categoryId);
@@ -63,7 +64,9 @@ export async function Products(categoryId = "sweets") {
 
     <div class="flex justify-between items-center">
     <div class="card-actions">
-      <a href="#/product/${productId}" class="btn bg-red-500" id="buy-now-${productId}">Quick View</a>
+      <button class="btn bg-red-500" id="buy-now-${productId}">Quick View</button>
+    
+    
     </div>
    <div 
     id="add-to-cart-${productId}" 
@@ -78,6 +81,7 @@ export async function Products(categoryId = "sweets") {
 
       const buyButton = productDiv.querySelector(`#buy-now-${productId}`);
       buyButton.addEventListener("click", () => {
+        Modal(product);
         localStorage.setItem("selectedProduct", JSON.stringify(product));
       });
 

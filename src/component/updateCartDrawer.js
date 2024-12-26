@@ -31,7 +31,7 @@ export function calculateCartSubtotal() {
 }
 
 export function updateCartDrawer() {
-  const cartDrawerComponent = document.getElementById("cart-drawer-container");
+const cartDrawerComponent = document.getElementById("cart-drawer-container");  
 
   if (!cartDrawerComponent) {
     console.error("Cart drawer container not found.");
