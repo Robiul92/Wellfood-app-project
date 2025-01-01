@@ -26,19 +26,39 @@ export function generateCartItemsHTML() {
 
   return cart
     .map(
-      (item) => `
-      <li class="flex items-center justify-between border-b py-2">
-        <img src="${item.image}" alt="${
-        item.name
-      }" class="w-12 h-12 rounded-md" />
-        <div class="flex-1 ml-4">
-          <p class="text-sm font-medium">${item.name}</p>
-          <p class="text-sm text-gray-500">${
-            item.quantity
-          } x ৳${item.price.toFixed(2)}</p>
-        </div>
-        <p class="text-sm font-medium">৳${item.totalPrice.toFixed(2)}</p>
-      </li>`
+      (item, index) => `
+     <div class=" flex items-center border-b pb-2 gap-4">
+  <!-- Image -->
+  <div class="flex-shrink-0 border border-gray-300 rounded-md p-1">
+    <img 
+      src="${item.image}" 
+      alt="${item.name}" 
+      class="w-16 h-16 object-cover rounded-md" 
+    />
+  </div>
+
+  <!-- Title and Details -->
+  <div class="flex-1">
+    <p class="text-sm font-semibold text-gray-800">${item.name}</p>
+    <div class="flex items-center">
+      <p class="text-sm text-gray-500">${item.quantity} x <span class="text-red-700">৳${item.price.toFixed(2)}</span> =</p>
+      <p class="text-sm text-red-700 ml-1">৳${item.totalPrice.toFixed(2)}</p>
+    </div>
+  </div>
+
+  <!-- Cross Button -->
+  <div class="flex-shrink-0 border border-gray-300  p-2">
+    <button 
+      class="text-gray-500 hover:text-red-500 text-xl font-bold remove-item"
+      "
+    >
+      &times;
+    </button>
+  </div>
+</div>
+
+
+`
     )
     .join("");
 }
@@ -66,34 +86,53 @@ export function updateCartDrawer() {
       </div>
       <div class="drawer-side">
         <label for="my-drawer-4" class="drawer-overlay"></label>
-        <div class="menu bg-white shadow-lg w-80 h-full p-4 flex flex-col justify-between">
-          <div class="flex justify-between items-center border-b pb-2">
+        <div class="menu bg-white shadow-lg w-96 max-w-full h-full p-6 flex flex-col">
+          <!-- Header -->
+          <div class="flex justify-between items-center border-b pb-4">
             <h3 class="text-lg font-bold">Shopping Cart</h3>
-            <label for="my-drawer-4" class="cursor-pointer text-gray-500 text-xl font-bold">&times;</label>
+            <label for="my-drawer-4" class="cursor-pointer text-gray-500 text-2xl font-bold">&times;</label>
           </div>
-          <ul class="space-y-2 mt-4">
+          
+          <!-- Cart Items -->
+          <ul class="space-y-4 mt-4 overflow-y-auto flex-1 max-h-[60vh]">
             ${cartItemsHTML}
           </ul>
+
+          <!-- Subtotal and Buttons -->
           <div class="mt-4 border-t pt-4">
             <div class="flex justify-between items-center">
-              <p class="text-lg font-semibold">Subtotal:</p>
-              <p class="text-lg font-semibold">৳${subtotal}</p>
+              <p class="text-lg font-semibold">SUBTOTAL:</p>
+              <p class="text-lg font-semibold text-red-600">৳ ${subtotal}</p>
             </div>
             <div class="mt-4 flex flex-col space-y-2">
-              <button id="cart-page-btn" class="btn bg-red-500 w-full">View Cart</button>
-              <button id="checkout-btn" class="btn bg-red-500 w-full">Checkout</button>
+              <button id="cart-page-btn" class="btn bg-red-500 text-white w-full py-2 rounded-md hover:bg-red-600">
+                View Cart
+              </button>
+              <button id="checkout-btn" class="btn bg-red-500 text-white w-full py-2 rounded-md hover:bg-red-600">
+                Checkout
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
   `;
+  const removeItemButtons = document.querySelectorAll(".remove-item");
 
+  removeItemButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      const index = event.target.getAttribute("data-index");
+      cart.splice(index, 1); // Remove item from the cart
+      saveCartToLocalStorage();
+      updateCartDrawer();
+    });
+  });
+
+  // Add event listeners for buttons
   const viewCartButton = document.getElementById("cart-page-btn");
   const drawerToggle = document.getElementById("my-drawer-4");
   if (viewCartButton) {
     viewCartButton.addEventListener("click", () => {
-      console.log("View Cart button clicked");
       window.location.hash = "#/cart";
       if (drawerToggle) drawerToggle.checked = false;
     });
@@ -102,12 +141,13 @@ export function updateCartDrawer() {
   const checkoutButton = document.getElementById("checkout-btn");
   if (checkoutButton) {
     checkoutButton.addEventListener("click", () => {
-      console.log("Checkout button clicked");
       window.location.hash = "#/checkout";
       if (drawerToggle) drawerToggle.checked = false;
     });
   }
 }
+
+
 
 export function addToCart(product, quantity, weight) {
   const price = parseFloat(product.price.replace(/[^\d.-]/g, ""));
