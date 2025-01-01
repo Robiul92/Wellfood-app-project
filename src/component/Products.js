@@ -11,6 +11,7 @@ export async function Products(categoryId = "sweets") {
     const response = await fetch(
       `https://bakery-backend.fly.dev/api/products?per_page=16&category=${categoryId}`
     );
+    console.log(response);
     if (!response.ok) {
       throw new Error("Failed to fetch product data");
     }
@@ -82,6 +83,7 @@ export async function Products(categoryId = "sweets") {
       const buyButton = productDiv.querySelector(`#buy-now-${productId}`);
       buyButton.addEventListener("click", () => {
         Modal(product);
+        console.log(product)
         localStorage.setItem("selectedProduct", JSON.stringify(product));
       });
 

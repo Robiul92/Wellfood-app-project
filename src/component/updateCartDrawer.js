@@ -1,9 +1,22 @@
 import { cartPage } from "../pages/cartPage";
 
-export let cart = JSON.parse(localStorage.getItem("cart")) || []; // Load cart from localStorage or initialize empty
+export let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 export function saveCartToLocalStorage() {
   localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+export function loadCartFromLocalStorage() {
+  const savedCart = localStorage.getItem("cart");
+  return savedCart ? JSON.parse(savedCart) : [];
+}
+
+export function deleteCartItem(index) {
+  if (index >= 0 && index < cart.length) {
+    cart.splice(index, 1); // Remove the item from the cart array
+    saveCartToLocalStorage(); // Save the updated cart to localStorage
+    updateCartDrawer(); // Update the cart drawer UI
+  }
 }
 
 export function generateCartItemsHTML() {
@@ -15,10 +28,14 @@ export function generateCartItemsHTML() {
     .map(
       (item) => `
       <li class="flex items-center justify-between border-b py-2">
-        <img src="${item.image}" alt="${item.name}" class="w-12 h-12 rounded-md" />
+        <img src="${item.image}" alt="${
+        item.name
+      }" class="w-12 h-12 rounded-md" />
         <div class="flex-1 ml-4">
           <p class="text-sm font-medium">${item.name}</p>
-          <p class="text-sm text-gray-500">${item.quantity} x ৳${item.price.toFixed(2)}</p>
+          <p class="text-sm text-gray-500">${
+            item.quantity
+          } x ৳${item.price.toFixed(2)}</p>
         </div>
         <p class="text-sm font-medium">৳${item.totalPrice.toFixed(2)}</p>
       </li>`
@@ -31,7 +48,7 @@ export function calculateCartSubtotal() {
 }
 
 export function updateCartDrawer() {
-const cartDrawerComponent = document.getElementById("cart-drawer-container");  
+  const cartDrawerComponent = document.getElementById("cart-drawer-container");
 
   if (!cartDrawerComponent) {
     console.error("Cart drawer container not found.");
@@ -49,7 +66,7 @@ const cartDrawerComponent = document.getElementById("cart-drawer-container");
       </div>
       <div class="drawer-side">
         <label for="my-drawer-4" class="drawer-overlay"></label>
-        <div class="menu bg-white shadow-lg w-80 p-4 flex flex-col justify-between">
+        <div class="menu bg-white shadow-lg w-80 h-full p-4 flex flex-col justify-between">
           <div class="flex justify-between items-center border-b pb-2">
             <h3 class="text-lg font-bold">Shopping Cart</h3>
             <label for="my-drawer-4" class="cursor-pointer text-gray-500 text-xl font-bold">&times;</label>
@@ -63,8 +80,8 @@ const cartDrawerComponent = document.getElementById("cart-drawer-container");
               <p class="text-lg font-semibold">৳${subtotal}</p>
             </div>
             <div class="mt-4 flex flex-col space-y-2">
-              <button id="cart-page-btn" class="btn btn-primary w-full">View Cart</button>
-              <button class="btn btn-secondary w-full">Checkout</button>
+              <button id="cart-page-btn" class="btn bg-red-500 w-full">View Cart</button>
+              <button id="checkout-btn" class="btn bg-red-500 w-full">Checkout</button>
             </div>
           </div>
         </div>
@@ -73,10 +90,21 @@ const cartDrawerComponent = document.getElementById("cart-drawer-container");
   `;
 
   const viewCartButton = document.getElementById("cart-page-btn");
+  const drawerToggle = document.getElementById("my-drawer-4");
   if (viewCartButton) {
     viewCartButton.addEventListener("click", () => {
       console.log("View Cart button clicked");
       window.location.hash = "#/cart";
+      if (drawerToggle) drawerToggle.checked = false;
+    });
+  }
+
+  const checkoutButton = document.getElementById("checkout-btn");
+  if (checkoutButton) {
+    checkoutButton.addEventListener("click", () => {
+      console.log("Checkout button clicked");
+      window.location.hash = "#/checkout";
+      if (drawerToggle) drawerToggle.checked = false;
     });
   }
 }

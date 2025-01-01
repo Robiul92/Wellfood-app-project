@@ -10,8 +10,16 @@ import { cartPage } from '../pages/cartPage';
 import { CheckoutPage } from '../pages/CheckoutPages';
 import { CatagoryProduct } from '../component/CatagoryProduct';
 import { Modal } from '../component/Modal';
+import { signInPage } from '../pages/signInPage';
+import { SignUpPage } from '../pages/SignUpPage';
+import { ProductPage } from '../pages/ProductPages';
 
 document.addEventListener('DOMContentLoaded', async () => {
+
+
+
+
+  
   // Initialize Navbar
   const navbarContainer = document.getElementById('navbar');
   if (navbarContainer) {
@@ -72,6 +80,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Set up route handling
   window.addEventListener('hashchange', SingleProduct); // Call Router on hash change
   SingleProduct();
+  
+
+  
 
   updateCartDrawer();
   Modal();
@@ -84,24 +95,67 @@ document.addEventListener('DOMContentLoaded', async () => {
 function handleRouteChange() {
   const { hash } = window.location;
   const mainContent = document.getElementById("hide-content");
+  const appContainer = document.getElementById("app");
+  const signInContent = document.getElementById("signIN");
+  const signUpContent = document.getElementById("signUp");
 
-  if (hash === "#/cart" || hash === "#/checkout") {
-    mainContent.style.display = "none"; 
-  } else {
-    mainContent.style.display = "block"; 
+
+  if (hash.startsWith("#/products/")) {
+    const productName = decodeURIComponent(hash.split("#/products/")[1]); // Extract product name
+    if (mainContent) mainContent.style.display = "none";
+    ProductPage(productName).then((productPage) => {
+      if (appContainer) {
+        appContainer.innerHTML = ""; // Clear previous content
+        appContainer.appendChild(productPage); // Render product page
+      } else {
+        console.error("App container not found");
+      }
+    });
+    return;
   }
 
+  // Hide main content for certain routes
+  if (hash === "#/cart" || hash === "#/checkout" || hash === "#/signin" || hash === "#/signup") {
+    if (mainContent) mainContent.style.display = "none";
+  } else {
+    if (mainContent) mainContent.style.display = "block";
+  }
+
+  // Cart Page
   if (hash === "#/cart") {
     cartPage();
   }
 
+  // Checkout Page
   if (hash === "#/checkout") {
-  
-   const hideCart = document.getElementById("cartPage");
-   CheckoutPage ? hideCart.style.display = "none" : hideCart.style.display = "block"
-   CheckoutPage();
+    const hideCart = document.getElementById("cartPage");
+    if (hideCart) hideCart.style.display = "none";
+    CheckoutPage();
+  }
+
+  // Sign In Page
+  if (hash === "#/signin") {
+    if (signInContent) {
+      signInContent.style.display = "block";
+      signInPage(); // Render the sign-in page
+    }
+    if (signUpContent) signUpContent.style.display = "none"; // Hide sign-up content
+  } else {
+    if (signInContent) signInContent.style.display = "none";
+  }
+
+  // Sign Up Page
+  if (hash === "#/signup") {
+    if (signUpContent) {
+      signUpContent.style.display = "block";
+      SignUpPage(); // Render the sign-up page
+    }
+    if (signInContent) signInContent.style.display = "none"; // Hide sign-in content
+  } else {
+    if (signUpContent) signUpContent.style.display = "none";
   }
 }
+
 
 
 
