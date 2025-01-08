@@ -1,6 +1,27 @@
-import {getProductName} from "../pages/ProductPages"
+import { getProductName } from "../pages/ProductPages";
+import { cart } from "./updateCartDrawer";
+
+export function updateCartBadge() {
+  const cartIcon = document.querySelector("#cart-icon");
+
+  if (!cartIcon) {
+    console.warn("Cart icon not found in the DOM.");
+    return; // Exit the function if the element is not found
+  }
+
+  // Select the hardcoded badge
+  const cartCountBadge = cartIcon.querySelector(".cart-badge");
+
+  // Calculate the total items in the cart
+  const cartItemCount = cart.reduce((count, item) => count + item.quantity, 0);
+
+  // Update badge text and visibility
+  cartCountBadge.textContent = cartItemCount;
+  cartCountBadge.style.display = cartItemCount > 0 ? "flex" : "none";
+}
+
 export function NavBar() {
-  const nav = document.createElement('nav');
+  const nav = document.createElement("nav");
   nav.innerHTML = `
 <nav class="bg-[#001f3f] text-white">
 <div class="max-w-screen-xl mx-auto flex items-center justify-between p-4">
@@ -38,17 +59,23 @@ export function NavBar() {
     <a href="#/signup" class="px-3 py-2 rounded-lg hover:text-yellow-500">Sign Up</a>
     <a href="#" class="flex items-center justify-center w-8 h-8 text-white bg-transparent hover:text-yellow-500">
       <!-- Heart Icon -->
+      <div class="absolute"> 
       <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="white" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 21c-4.969-5.165-8.003-8.386-9.003-9.758C1.373 9.825 1.999 6.999 5.001 6.999c2.004 0 3.501 1.665 4.5 3 1-1.335 2.496-3 4.499-3 3.003 0 3.628 2.826 2.004 4.243-.999 1.372-4.032 4.593-9.002 9.758z" />
       </svg>
+       <span class="cart-badge absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
+       </div>
     </a>
     <a id="cart-icon" class="flex items-center justify-center w-8 h-8 text-white bg-transparent hover:text-yellow-500">
       <!-- Shopping Cart Icon -->
+      <div  class="relative">
       <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="white" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l1.553 9.66A1 1 0 007.553 14H19a1 1 0 00.985-.836L22 6H6" />
         <circle cx="9" cy="21" r="1" />
         <circle cx="20" cy="21" r="1" />
       </svg>
+       <span class="cart-badge absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
+      </div>
     </a>
   </div>
 
@@ -106,50 +133,51 @@ export function NavBar() {
 
   const productsBtn = nav.querySelector("#products-btn");
   const productsDropdown = nav.querySelector("#products-dropdown");
-  console.log(productsDropdown)
- 
+  console.log(productsDropdown);
 
-  productsBtn.addEventListener("click", ()=>{
+  productsBtn.addEventListener("click", () => {
     productsDropdown.classList.toggle("hidden");
-  })
+  });
 
   const dropdownItems = productsDropdown.querySelectorAll("a");
-  dropdownItems.forEach(item => {
+  dropdownItems.forEach((item) => {
     item.addEventListener("click", (event) => {
-      event.preventDefault(); // Prevent default link behavior
-      const productName = item.dataset.product; // Get the product name from data attribute
+      event.preventDefault(); 
+      //..The dataset property is used in JavaScript to access custom data attributes defined in HTML
+      const productName = item.dataset.product; 
       getProductName(productName); // Pass the product name to the function
       console.log(productName);
+
+      // ... to hide the product dropwown
+      productsDropdown.classList.add("hidden");
     });
-  })
+  });
 
   const hamburgerBtn = nav.querySelector("#hamburger-btn");
   const mobileMenu = nav.querySelector("#mobile-menu");
 
   hamburgerBtn.addEventListener("click", () => {
-      mobileMenu.classList.toggle("hidden");
+    mobileMenu.classList.toggle("hidden");
   });
 
   const mobileProductsBtn = nav.querySelector("#mobile-products-btn");
   const mobileProductsDropdown = nav.querySelector("#mobile-products-dropdown");
 
   mobileProductsBtn.addEventListener("click", () => {
-      mobileProductsDropdown.classList.toggle("hidden");
+    mobileProductsDropdown.classList.toggle("hidden");
   });
 
   const cartIcon = nav.querySelector("#cart-icon");
+
   cartIcon.addEventListener("click", () => {
-    console.log("clicked")
-      const cartDrawerCheckbox = document.querySelector("#my-drawer-4");
-      if (cartDrawerCheckbox) {
-          cartDrawerCheckbox.checked = true; // Open the cart drawer
-      }
+    console.log("clicked");
+    const cartDrawerCheckbox = document.querySelector("#my-drawer-4");
+    if (cartDrawerCheckbox) {
+      cartDrawerCheckbox.checked = true; // Open the cart drawer
+    }
   });
+
+  updateCartBadge();
 
   return nav;
 }
-  
-
- 
-
-  

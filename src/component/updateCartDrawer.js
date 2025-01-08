@@ -1,4 +1,5 @@
 import { cartPage } from "../pages/cartPage";
+import { updateCartBadge } from "./NavBar";
 
 export let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -50,7 +51,7 @@ export function generateCartItemsHTML() {
   <div class="flex-shrink-0 border border-gray-300  p-2">
     <button 
       class="text-gray-500 hover:text-red-500 text-xl font-bold remove-item"
-      "
+       data-index="${index}"
     >
       &times;
     </button>
@@ -125,6 +126,7 @@ export function updateCartDrawer() {
       cart.splice(index, 1); // Remove item from the cart
       saveCartToLocalStorage();
       updateCartDrawer();
+      updateCartBadge();
     });
   });
 
@@ -177,4 +179,5 @@ export function addToCart(product, quantity, weight) {
 
   saveCartToLocalStorage(); // Save cart to localStorage
   updateCartDrawer(); // Update cart drawer UI
+  updateCartBadge()
 }
